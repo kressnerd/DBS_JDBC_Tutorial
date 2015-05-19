@@ -10,14 +10,28 @@
 package de.fu_berlin.mi.ag_db.dbs.tutjdbc;
 
 import java.sql.*;
+import java.util.Properties;
 
 public class DBSConTest {
 
 	public static void main(String[] args) {
 		try {
+			/* Load Driver (included in jar file from JDBC database provider */
 			Class.forName("org.postgresql.Driver");
-			String url = "jdbc:postgresql://localhost:15432/myapp?user=myapp&password=dbpass";
-			Connection conn = DriverManager.getConnection(url);
+
+			/* Connect String and Credentials for DB connection*/
+			String server = "localhost";
+			String port = "15432";
+			String dbName = "myapp";
+			String url = "jdbc:postgresql://" + server + ":" + port + "/" + dbName;
+			Properties props = new Properties();
+			props.setProperty("user","myapp");
+			props.setProperty("password","dbpass");
+			Connection conn = DriverManager.getConnection(url, props);
+
+			/* Alternative Connect String without Properties */
+			// String url = "jdbc:postgresql://localhost:15432/myapp?user=myapp&password=dbpass";
+			// Connection conn = DriverManager.getConnection(url);
 
 			/* Simple Query 1: Access Attribute by Position */
 			Statement st1 = conn.createStatement();
